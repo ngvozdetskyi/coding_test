@@ -51,11 +51,11 @@ export class GamesService {
       throw new Error('Game dto to update or id is not provided.');
     };
     const { publisher, ...restData } = updateGameDto;
+    await this.gamesRepository.update(id, restData);
     const { id: publisherId, ...restPublisherData } = publisher;
-    if (publisher?.id) {
+    if (publisherId) {
       await this.publishersService.update(publisherId, restPublisherData);
     }
-    await this.gamesRepository.update(id, restData);
   }
 
   async remove(id: string) {
