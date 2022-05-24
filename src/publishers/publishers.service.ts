@@ -10,15 +10,21 @@ export class PublishersService {
     private publishersRepository: Repository<Publisher>,
   ) {}
   create(publisherData: Omit<Publisher, 'id'>) {
-    if (!publisherData) return;
+    if (!publisherData) {
+      throw new Error('Publisher data to create is not provided.');
+    };
     return this.publishersRepository.save(publisherData);
   }
   update(id: string, publisherData: Omit<Publisher, 'id'>) {
-    if (!id || !publisherData) return;
+    if (!id || !publisherData) {
+      throw new Error('Publisher data to update or id is not provided.');
+    }
     return this.publishersRepository.update(id, publisherData);
   }
   remove(id: string) {
-    if (!id) return;
+    if (!id) {
+      throw new Error('Publisher id to remove is not provided.');
+    };
     return this.publishersRepository.delete(id);
   }
 }

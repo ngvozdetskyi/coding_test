@@ -18,7 +18,9 @@ export class GamesService {
   ) {}
 
   async create(createGameDto: CreateGameDto): Promise<Game> {
-    if (!createGameDto) return;
+    if (!createGameDto) {
+      throw new Error('Game dto to create is not provided.');
+    }
     const { publisher, ...restData } = createGameDto;
     const createdPublisher = await this.publishersService.create(publisher);
     return this.gamesRepository.save({
@@ -28,7 +30,9 @@ export class GamesService {
   }
 
   find(query: GetGamesQuery) {
-    if (!query) return;
+    if (!query) {
+      throw new Error('Query to find games is not provided.');
+    }
     return this.gamesRepository.find(query);
   }
 
@@ -36,12 +40,16 @@ export class GamesService {
     id: string,
     options?: T,
   ): Promise<Pick<Game, K['select'][number]> & { publisher?: Publisher }> {
-    if (!id) return;
+    if (!id) {
+      throw new Error('Id to find game is not provided.');
+    }
     return this.gamesRepository.findOne(id, options);
   }
 
   async update(id: string, updateGameDto: UpdateGameDto) {
-    if (!id || !updateGameDto) return;
+    if (!id || !updateGameDto) {
+      throw new Error('Game dto to update or id is not provided.');
+    };
     const { publisher, ...restData } = updateGameDto;
     const { id: publisherId, ...restPublisherData } = publisher;
     if (publisher?.id) {
@@ -51,7 +59,9 @@ export class GamesService {
   }
 
   async remove(id: string) {
-    if (!id) return;
+    if (!id) {
+      throw new Error('Id to delete game is not provided.');
+    }
     const foundGame = await this.findOne(id, {
       join: {
         alias: 'game',
