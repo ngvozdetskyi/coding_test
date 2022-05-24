@@ -38,9 +38,12 @@ describe('GamesService', () => {
     expect(service).toBeDefined();
   });
   describe('create game', () => {
-    it('it returns undefined', async () => {
-      const result = await service.create(null);
-      expect(result).toBe(undefined);
+    it('it returns error', async () => {
+      try {
+        await service.create(null);
+      } catch (err) {
+        expect(err.message).toBe('Game dto to create is not provided.');
+      }
     });
     it('it returns created game', async () => {
       const result = await service.create(createIncomingData);
@@ -50,9 +53,12 @@ describe('GamesService', () => {
     });
   });
   describe('find games', () => {
-    it('it returns undefined', async () => {
-      const result = await service.find(null);
-      expect(result).toBe(undefined);
+    it('it returns error', () => {
+      try {
+        service.find(null);
+      } catch (err) {
+        expect(err.message).toBe('Query to find games is not provided.');
+      }
     });
     it('it returns an object game', async () => {
       const result = await service.find({ title: 'test99' });
@@ -61,9 +67,12 @@ describe('GamesService', () => {
     });
   });
   describe('findOne game', () => {
-    it('it returns undefined', async () => {
-      const result = await service.findOne(null);
-      expect(result).toBe(undefined);
+    it('it returns error', () => {
+      try {
+        service.findOne(null);
+      } catch (err) {
+        expect(err.message).toBe('Id to find game is not provided.');
+      }
     });
     it('it returns an object game', async () => {
       const result = await service.findOne('1');
@@ -72,9 +81,12 @@ describe('GamesService', () => {
     });
   });
   describe('update game', () => {
-    it('it returns undefined', async () => {
-      const result = await service.update(null, null);
-      expect(result).toBe(undefined);
+    it('it returns error', async () => {
+      try {
+        await service.update(null, null);
+      } catch (err) {
+        expect(err.message).toBe('Game dto to update or id is not provided.');
+      }
     });
     it('it updates game and publisher', async () => {
       await service.update('1', updateIncomingData);
@@ -83,9 +95,12 @@ describe('GamesService', () => {
     });
   });
   describe('remove game', () => {
-    it('it returns undefined', async () => {
-      const result = await service.remove(null);
-      expect(result).toBe(undefined);
+    it('it returns error', async () => {
+      try {
+        await service.remove(null);
+      } catch (err) {
+        expect(err.message).toBe('Id to delete game is not provided.');
+      }
     });
     it('it removes game', async () => {
       const result = await service.remove('1');
