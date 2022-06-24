@@ -49,7 +49,7 @@ export class GamesService {
   async update(id: string, updateGameDto: UpdateGameDto) {
     if (!id || !updateGameDto) {
       throw new Error('Game dto to update or id is not provided.');
-    };
+    }
     const { publisher, ...restData } = updateGameDto;
     await this.gamesRepository.update(id, restData);
     const { id: publisherId, ...restPublisherData } = publisher;
