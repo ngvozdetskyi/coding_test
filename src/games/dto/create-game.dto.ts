@@ -16,8 +16,8 @@ class CreatePublisherIncomingData {
   name: string;
 
   @IsNotEmpty()
-  @IsNumber()
-  siret: number;
+  @IsString()
+  email: string;
 
   @IsNotEmpty()
   @IsString()

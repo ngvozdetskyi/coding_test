@@ -13,6 +13,7 @@ import { GamesService } from './games.service';
 import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
 import { GetGamesQuery } from './dto/get-game.dto';
+import { ApplySalesDeleteOldGamesDto } from './dto/apply-sales-delete-old-games';
 
 @Controller('games')
 export class GamesController {
@@ -84,10 +85,19 @@ export class GamesController {
   }
 
   @Post('apply-sales-delete-old-games')
-  async deleteOldGamesAndApplySales() {
+  async deleteOldGamesAndApplySales(
+    @Body() applySalesDeleteOldGamesDto: ApplySalesDeleteOldGamesDto,
+  ) {
     try {
-      await this.gamesService.deleteOldGames();
-      await this.gamesService.applySales();
+      const { deleteOldGamesFrom, percentsOfSale, applySaleFrom, applySaleTo } =
+        applySalesDeleteOldGamesDto;
+      console.log(percentsOfSale, typeof percentsOfSale);
+      await this.gamesService.applySales(
+        percentsOfSale,
+        applySaleFrom,
+        applySaleTo,
+      );
+      return await this.gamesService.deleteOldGames(deleteOldGamesFrom);
     } catch (err) {
       const { message } = err;
       throw new BadRequestException(message);
