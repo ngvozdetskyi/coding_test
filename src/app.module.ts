@@ -13,7 +13,7 @@ import { Publisher } from './publishers/entities/publisher.entity';
       type: 'postgres',
       username: 'postgres',
       password: '0000',
-      host: 'nest-postgres',
+      host: 'database',
       port: 5432,
       database: 'postgres',
       retryAttempts: 3,

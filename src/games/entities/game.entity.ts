@@ -29,7 +29,7 @@ export class Game {
   @JoinColumn()
   publisher: Publisher;
 
-  @Column({ nullable: false, type: 'simple-array' })
+  @Column({ nullable: false, type: 'jsonb' })
   tags: string[];
 
   @Column({ nullable: false, type: 'date' })
