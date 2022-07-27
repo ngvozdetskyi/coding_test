@@ -15,13 +15,13 @@ export class Game {
   @Column({
     type: 'varchar',
     unique: true,
-    nullable: false,
+    nullable: true,
   })
   title: string;
 
   @Column({
     type: 'int',
-    nullable: false,
+    nullable: true,
   })
   price: number;
 

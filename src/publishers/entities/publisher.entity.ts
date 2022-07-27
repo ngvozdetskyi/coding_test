@@ -9,7 +9,7 @@ export class Publisher {
   name: string;
 
   @Column({ type: 'int', nullable: false })
-  siret: number;
+  sirets: number;
 
   @Column({ type: 'varchar', unique: true, nullable: false })
   phone: string;
