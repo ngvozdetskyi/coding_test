@@ -7,6 +7,6 @@ export const updateIncomingData = {
     id: '1',
     name: 'Nik',
     phone: '232039023992',
-    siret: 10,
+    email: 'nik@gmail.com',
   },
 };

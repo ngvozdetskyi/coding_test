@@ -11,19 +11,19 @@ export class PublishersService {
   ) {}
   create(publisherData: Omit<Publisher, 'id'>) {
     if (!publisherData) {
-      throw new Error('Publisher data to create is not provided.');
+      throw new Error('Publisher create data is not provided.');
     }
     return this.publishersRepository.save(publisherData);
   }
   update(id: string, publisherData: Omit<Publisher, 'id'>) {
     if (!id || !publisherData) {
-      throw new Error('Publisher data to update or id is not provided.');
+      throw new Error('Publisher update data or id is not provided.');
     }
     return this.publishersRepository.update(id, publisherData);
   }
   remove(id: string) {
     if (!id) {
-      throw new Error('Publisher id to remove is not provided.');
+      throw new Error('Publisher id is not provided.');
     }
     return this.publishersRepository.delete(id);
   }

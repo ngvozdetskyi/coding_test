@@ -8,8 +8,8 @@ export class Publisher {
   @Column({ type: 'varchar', unique: true, nullable: false })
   name: string;
 
-  @Column({ type: 'int', nullable: false })
-  sirets: number;
+  @Column({ type: 'varchar', unique: true, nullable: false })
+  email: string;
 
   @Column({ type: 'varchar', unique: true, nullable: false })
   phone: string;

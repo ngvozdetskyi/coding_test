@@ -6,7 +6,7 @@ export const createIncomingData = {
   publisher: {
     name: 'Alex3333',
     phone: '21999999',
-    siret: 212121,
+    email: 'alex3333@gmail.com',
   },
 };
 export const gameReturningData = {
@@ -20,7 +20,7 @@ export const publisherReturningData = {
   id: '1',
   name: 'Alex3333',
   phone: '21999999',
-  siret: 212121,
+  email: 'alex3333@gmail.com',
 };
 export const returningData = {
   publisher: publisherReturningData,

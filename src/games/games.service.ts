@@ -19,7 +19,7 @@ export class GamesService {
 
   async create(createGameDto: CreateGameDto): Promise<Game> {
     if (!createGameDto) {
-      throw new Error('Game dto to create is not provided.');
+      throw new Error('Game create data is not provided.');
     }
     const { publisher, ...restData } = createGameDto;
     const createdPublisher = await this.publishersService.create(publisher);
@@ -48,7 +48,7 @@ export class GamesService {
 
   async update(id: string, updateGameDto: UpdateGameDto) {
     if (!id || !updateGameDto) {
-      throw new Error('Game dto to update or id is not provided.');
+      throw new Error('Game update data or id is not provided.');
     }
     const { publisher, ...restData } = updateGameDto;
     await this.gamesRepository.update(id, restData);
@@ -68,25 +68,33 @@ export class GamesService {
         leftJoinAndSelect: { publisher: 'game.publisher' },
       },
     });
-    const response = await this.publishersService.remove(
-      foundGame?.publisher?.id,
-    );
-    return { success: Boolean(response) };
+    await this.publishersService.remove(foundGame?.publisher?.id);
   }
 
-  async applySales() {
-    await this.gamesRepository.query(
-      'update game set price = price - (price / 100.0 * 20.0) ' +
-        "where \"releaseDate\" between (current_date - INTERVAL '18 month') and (current_date - INTERVAL '12 month')",
-    );
+  async applySales(percentsOfSale: number, from: string, to: string) {
+    if (typeof percentsOfSale !== 'number') {
+      return;
+    }
+    await this.gamesRepository
+      .createQueryBuilder()
+      .update(Game)
+      .set({ price: () => `price - (price / 100.0 * ${percentsOfSale})` })
+      .where(
+        "\"releaseDate\" between (current_date - INTERVAL concat(:from, 'month')) and (current_date - INTERVAL  :to 'month')",
+        { from, to },
+      )
+      .execute();
   }
 
-  async deleteOldGames() {
+  async deleteOldGames(from: string) {
     const gamesWithOnlyId: Pick<Game, 'id'>[] = await this.gamesRepository
       .createQueryBuilder()
       .select('id')
-      .where('"releaseDate" < (current_date - INTERVAL \'18 month\')')
+      .where('"releaseDate" < (current_date - INTERVAL \':from month\')', {
+        from,
+      })
       .execute();
     await Promise.all(gamesWithOnlyId.map((game) => this.remove(game.id)));
+    return { deletedGames: gamesWithOnlyId.length };
   }
 }

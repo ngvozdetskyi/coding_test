@@ -42,7 +42,7 @@ describe('GamesService', () => {
       try {
         await service.create(null);
       } catch (err) {
-        expect(err.message).toBe('Game dto to create is not provided.');
+        expect(err.message).toBe('Game create data is not provided.');
       }
     });
     it('it returns created game', async () => {
@@ -85,7 +85,7 @@ describe('GamesService', () => {
       try {
         await service.update(null, null);
       } catch (err) {
-        expect(err.message).toBe('Game dto to update or id is not provided.');
+        expect(err.message).toBe('Game update data or id is not provided.');
       }
     });
     it('it updates game and publisher', async () => {
@@ -106,7 +106,7 @@ describe('GamesService', () => {
       const result = await service.remove('1');
       expect(GameRepositoryMock.findOne.mock.calls.length).toBe(1);
       expect(PublisherServiceMock.remove.mock.calls.length).toBe(1);
-      expect(result).toEqual({ success: true });
+      expect(result).toBe(undefined);
     });
   });
 });
